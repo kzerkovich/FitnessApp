@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FitnessApp</string>
+    <string name="motivation"> Progress is progress. No matter how small.</string>
+    <string name="temp_progress">3 days remaining</string>
 </resources>
