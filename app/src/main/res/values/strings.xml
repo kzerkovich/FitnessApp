@@ -9,4 +9,5 @@
     <string name="next">Next</string>
     <string name="back_to_days">Day completed!</string>
     <string name="menu">Back to menu</string>
+    <string name="rest_days">days remaining</string>
 </resources>

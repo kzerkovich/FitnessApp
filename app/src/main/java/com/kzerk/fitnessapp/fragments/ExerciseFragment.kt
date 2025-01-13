@@ -26,6 +26,7 @@ class ExerciseFragment : Fragment() {
 	private var exList: ArrayList<ExerciseModel>? = null
 	private val model: MainViewModel by activityViewModels()
 	private var timer: CountDownTimer? = null
+	private var curDay = 0
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,8 @@ class ExerciseFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		curDay = model.currentDay
+		counter = model.getPreferences()
 		model.mutableListExercise.observe(viewLifecycleOwner) {
 			exList = it
 			nextExercise()
@@ -54,6 +57,7 @@ class ExerciseFragment : Fragment() {
 			setExerciseType(ex)
 			showNextExercise()
 		} else {
+			counter++
 			FragmentManager.setFragment(DayFinishFragment.newInstance(), activity as AppCompatActivity)
 		}
 	}
@@ -76,7 +80,8 @@ class ExerciseFragment : Fragment() {
 
 	private fun setTimeType(exercise: ExerciseModel) = with(binding){
 		if (exercise.time.startsWith("x")) {
-			tvNextName.text = exercise.time
+			val text = exercise.name + ": " + exercise.time
+			tvNextName.text = text
 		} else {
 			val name = exercise.name + ": ${TimeUtils.getTime(exercise.time.toLong() * 1000)}"
 			tvNextName.text = name
@@ -112,6 +117,7 @@ class ExerciseFragment : Fragment() {
 
 	override fun onDetach() {
 		super.onDetach()
+		model.savePreferences(curDay.toString(), counter - 1)
 		timer?.cancel()
 	}
 

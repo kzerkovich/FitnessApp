@@ -30,15 +30,30 @@ class DaysFragment : Fragment(), DaysAdapter.Listener {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		model.currentDay = 0
 		initRC()
 	}
 
 	private fun fillDays(): ArrayList<DayModel> {
 		val tArray = ArrayList<DayModel>()
+		var dayCounter = 0
 		resources.getStringArray(R.array.day_exercises).forEach {
-			tArray.add(DayModel(it, false))
+			model.currentDay++
+			val exCounter = it.split(",").size
+			tArray.add(DayModel(it, 0,model.getPreferences() == exCounter))
 		}
+		binding.progressBar.max = tArray.size
+		tArray.forEach {
+			if (it.isDone) dayCounter++
+		}
+		updateDays(tArray.size - dayCounter, tArray.size)
 		return tArray
+	}
+
+	private fun updateDays(restDays: Int, days: Int) = with(binding){
+		val rDays = restDays.toString() + " " + getString(R.string.rest_days)
+		remainingDays.text = rDays
+		progressBar.progress = days - restDays
 	}
 
 	private fun initRC() = with(binding) {
@@ -55,7 +70,7 @@ class DaysFragment : Fragment(), DaysAdapter.Listener {
 			val exercise = exerciseList[it.toInt()]
 			val exerciseArray = exercise.split("|")
 			tList.add(
-				ExerciseModel(exerciseArray[0], exerciseArray[1], exerciseArray[2])
+				ExerciseModel(exerciseArray[0], exerciseArray[1], exerciseArray[2], false)
 			)
 		}
 
@@ -69,6 +84,7 @@ class DaysFragment : Fragment(), DaysAdapter.Listener {
 
 	override fun onClick(day: DayModel) {
 		fillExercise(day)
+		model.currentDay = day.dayNumber
 		FragmentManager.setFragment(
 			ExerciseListFragment.newInstance(),
 			activity as AppCompatActivity

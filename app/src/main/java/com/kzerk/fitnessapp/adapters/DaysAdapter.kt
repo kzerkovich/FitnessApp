@@ -19,9 +19,9 @@ class DaysAdapter(var listener: Listener) : ListAdapter<DayModel, DaysAdapter.Da
 					root.context.getString(R.string.exercises)
 			tvName.text = name
 			tvExercise.text = exCounter
-
+			checkBox.isChecked = day.isDone
 			itemView.setOnClickListener {
-				listener.onClick(day)
+				listener.onClick(day.copy(dayNumber = adapterPosition + 1))
 			}
 		}
 	}
