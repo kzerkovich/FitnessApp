@@ -18,7 +18,7 @@ import com.kzerk.fitnessapp.utils.MainViewModel
 
 class DaysFragment : Fragment(), DaysAdapter.Listener {
 	private lateinit var binding: FragmentDaysBinding
-	private val model : MainViewModel by activityViewModels()
+	private val model: MainViewModel by activityViewModels()
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +40,7 @@ class DaysFragment : Fragment(), DaysAdapter.Listener {
 		resources.getStringArray(R.array.day_exercises).forEach {
 			model.currentDay++
 			val exCounter = it.split(",").size
-			tArray.add(DayModel(it, 0,model.getPreferences() == exCounter))
+			tArray.add(DayModel(it, 0, model.getPreferences() == exCounter))
 		}
 		binding.progressBar.max = tArray.size
 		tArray.forEach {
@@ -50,7 +50,7 @@ class DaysFragment : Fragment(), DaysAdapter.Listener {
 		return tArray
 	}
 
-	private fun updateDays(restDays: Int, days: Int) = with(binding){
+	private fun updateDays(restDays: Int, days: Int) = with(binding) {
 		val rDays = restDays.toString() + " " + getString(R.string.rest_days)
 		remainingDays.text = rDays
 		progressBar.progress = days - restDays
