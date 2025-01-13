@@ -5,12 +5,14 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kzerk.fitnessapp.adapters.ExerciseAdapter
 import com.kzerk.fitnessapp.databinding.ExerciseListBinding
 import com.kzerk.fitnessapp.databinding.WaitingFragmentBinding
+import com.kzerk.fitnessapp.utils.FragmentManager
 import com.kzerk.fitnessapp.utils.MainViewModel
 import com.kzerk.fitnessapp.utils.TimeUtils
 
@@ -42,7 +44,7 @@ class WaitingFragment: Fragment() {
 			}
 
 			override fun onFinish() {
-
+				FragmentManager.setFragment(ExerciseFragment.newInstance(), activity as AppCompatActivity)
 			}
 
 		}.start()

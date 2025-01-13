@@ -6,4 +6,7 @@
     <string name="exercises">Exercises</string>
     <string name="start_timer">Start in</string>
     <string name="start">Start</string>
+    <string name="next">Next</string>
+    <string name="back_to_days">Day completed!</string>
+    <string name="menu">Back to menu</string>
 </resources>
