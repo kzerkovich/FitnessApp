@@ -9,16 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kzerk.fitnessapp.R
 import com.kzerk.fitnessapp.databinding.DaysListItemBinding
 
-class DaysAdapter : ListAdapter<DayModel, DaysAdapter.DayHolder>(Comparator()) {
+class DaysAdapter(var listener: Listener) : ListAdapter<DayModel, DaysAdapter.DayHolder>(Comparator()) {
 
 	class DayHolder(view: View) : RecyclerView.ViewHolder(view) {
 		private val binding = DaysListItemBinding.bind(view)
-		fun setData(day : DayModel) =  with(binding) {
+		fun setData(day : DayModel, listener: Listener) =  with(binding) {
 			val name = root.context.getString(R.string.day) + " ${adapterPosition + 1}"
 			val exCounter = day.exercises.split(",").size.toString() + " " +
 					root.context.getString(R.string.exercises)
 			tvName.text = name
 			tvExercise.text = exCounter
+
+			itemView.setOnClickListener {
+				listener.onClick(day)
+			}
 		}
 	}
 
@@ -39,6 +43,10 @@ class DaysAdapter : ListAdapter<DayModel, DaysAdapter.DayHolder>(Comparator()) {
 	}
 
 	override fun onBindViewHolder(holder: DayHolder, position: Int) {
-		holder.setData(getItem(position))
+		holder.setData(getItem(position), listener)
+	}
+
+	interface Listener {
+		fun onClick(day: DayModel)
 	}
 }
